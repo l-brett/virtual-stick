@@ -15,7 +15,11 @@ export default class VirtualJoyStick {
         this.options = Object.assign({}, options, defaults);
         this.createCanvas();
     }
-
+    /**
+     * Creates the canvas
+     * 
+     * @memberof VirtualJoyStick
+     */
     createCanvas() {
         this.canvas = new Canvas();
         this.context = this.canvas.getContext('2D');
@@ -40,10 +44,15 @@ export default class VirtualJoyStick {
         this._isAttached = true;
         document.body.appendChild(this.canvas);
     }
-
+    /**
+     * Renders a frame
+     * 
+     * @returns 
+     * @memberof VirtualJoyStick
+     */
     draw() {
         if(!this._isAttached) return;
-
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawCircle(
             this.options['track-size'] / 2,
             this.options['track-size'] / 2,
@@ -58,7 +67,15 @@ export default class VirtualJoyStick {
             this.options['button-color']
         );
     }
-
+    /**
+     * Draws a circle
+     * 
+     * @param {any} x 
+     * @param {any} y 
+     * @param {any} radius 
+     * @param {any} fillColor 
+     * @memberof VirtualJoyStick
+     */
     drawCircle(x, y, radius, fillColor) {
         this.context.arc(x,y,radius, 0, 2 * Math.PI, false);
         this.context.fillStyle = fillColor;
