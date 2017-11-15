@@ -1,18 +1,21 @@
 <html>
     <head>
         <title>Controller Test</title>
+        <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1">
     </head>
-    <body>
-        <script type="module">
-            import controller from './src/controller.js';
-            let control = new controller();
+    <body style="overscroll-behavior-y: none;">
 
-            function draw() {
-                control.draw();
-                requestAnimationFrame(draw);
-            }
-
-            requestAnimationFrame(draw);
-        </script>
+        <div id="container" style="width:100vw;height:100vh;background:blue;"></div>
     </body>
+    <script type="module">
+        import controller from './src/controller.js';
+        let control = new controller({'tracking-element':document.getElementById('container')});
+
+        function draw() {
+            control.draw();
+            requestAnimationFrame(draw);
+        }
+
+        requestAnimationFrame(draw);
+    </script>
 </html>
