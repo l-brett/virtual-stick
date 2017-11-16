@@ -10,10 +10,20 @@ export default class VirtualStick {
         });
         this.touchHandler = new TouchHandler({
             'element': this.container.el,
-            'start': (ev) => this.stick.start(ev),
+            'start': (ev) => this.start(ev),
             'move': (x,y) => this.stick.move(x,y),
-            'end': (ev) => this.stick.end(ev)
+            'end': (ev) => this.end()
         });
+    }
+
+    start() {
+        this.stick.show();
+        this.stick.start();
+    }
+
+    end() {
+        this.stick.hide();
+        this.stick.end();
     }
     
     draw() {

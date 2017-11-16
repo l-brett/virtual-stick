@@ -33,8 +33,6 @@ export default class Stick {
         });
 
         this.createCanvas();
-        this.show();
-
     }
     /**
      * Creates the canvas
