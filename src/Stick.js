@@ -1,4 +1,6 @@
-export default class VirtualJoyStick {
+import TouchHandler from './TouchHandler.js';
+
+export default class Stick {
     /**
      * Creates an instance of VirtualJoyStick.
      * @param {any} options 
@@ -12,15 +14,27 @@ export default class VirtualJoyStick {
             'button-size': 100,
             'track-size': 150,
             'tracking-element': document.body,
-            'factor': 0.01,
+            'factor': 0.02,
         }
         this.options = Object.assign({}, defaults, options);
         this._isAttached = false;
         this.x = 0;
         this.y = 0;
+
+        this.startFn = (ev) => this.start(ev);
+        this.moveFn = (x, y) => this.move(x, y);
+        this.endFn = (ev) => this.end(ev);
+
+        this.touchHandler = new TouchHandler({
+            element: this.options['tracking-element'],
+            start: this.startFn,
+            move: this.moveFn,
+            end: this.endFn
+        });
+
         this.createCanvas();
-        this.bindEvents();
         this.show();
+
     }
     /**
      * Creates the canvas
@@ -34,29 +48,11 @@ export default class VirtualJoyStick {
         this.context = this.canvas.getContext('2d');
     }
 
-    bindEvents() {
-        let el = this.options['tracking-element'];
-        el.addEventListener('touchstart', (ev) => this.start(ev), false);
-        el.addEventListener('touchmove', (ev) => this.move(ev), false);
-        el.addEventListener('touchend', (ev) => this.end(ev), false);
-    }
-
     start(event) {
         if(!this._isAttached) return;
 
-        if(event.targetTouches.length == 1) {
-            var touch = event.targetTouches[0];
-            this.currentTouch = {
-                identifier: touch.identifier,
-                x:touch.pageX,
-                y:touch.pageY
-            };
-
-            this.x = 0;
-            this.y = 0;
-        }
-        event.preventDefault();
-        return false;
+        this.x = 0;
+        this.y = 0;
     }
 
     getAngle(x, y) {
@@ -73,37 +69,24 @@ export default class VirtualJoyStick {
         }
         return false;
     }
-    move(event) {
+    move(changeX, changeY) {
         if(!this._isAttached) return;
-        if(!this.currentTouch) return;
-        let changedTouch = this.findTouch(event.changedTouches);
-        
-        if(changedTouch) {
-            let changeX = changedTouch.pageX - this.currentTouch.x;
-            let changeY = changedTouch.pageY - this.currentTouch.y;
             
-            let fx = changeX * this.options['factor'];
-            let fy = changeY * this.options['factor'];
+        let fx = changeX * this.options['factor'];
+        let fy = changeY * this.options['factor'];
 
 
-            let px =  this.x + fx;
-            let py = this.y + fy
+        let px =  this.x + fx;
+        let py = this.y + fy
 
-            let rads = this.getAngle(px, py);
-            let maxX = Math.abs(Math.cos(rads));
-            let maxY = Math.abs(Math.sin(rads));
+        let rads = this.getAngle(px, py);
+        let maxX = Math.abs(Math.cos(rads));
+        let maxY = Math.abs(Math.sin(rads));
 
-            this.x = Math.min(maxX, px);
-            this.y = Math.min(maxY, py);
-            this.x = Math.max(-maxX,this.x);
-            this.y = Math.max(-maxY,this.y);
-
-            this.currentTouch.x = changedTouch.pageX;
-            this.currentTouch.y = changedTouch.pageY;
-        }
-
-        event.preventDefault();
-        return false;
+        this.x = Math.min(maxX, px);
+        this.y = Math.min(maxY, py);
+        this.x = Math.max(-maxX,this.x);
+        this.y = Math.max(-maxY,this.y);
     }
 
     end(event) {
