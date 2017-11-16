@@ -75,7 +75,6 @@ export default class Stick {
         let fx = changeX * this.options['factor'];
         let fy = changeY * this.options['factor'];
 
-
         let px =  this.x + fx;
         let py = this.y + fy
 
@@ -90,10 +89,8 @@ export default class Stick {
     }
 
     end(event) {
-        this.currentTouch = null;
         this.x = 0;
         this.y = 0;
-        return false; 
     }
 
     /**

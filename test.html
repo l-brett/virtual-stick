@@ -8,8 +8,8 @@
         <div id="container" style="width:100vw;height:100vh;background:blue;"></div>
     </body>
     <script type="module">
-        import controller from './src/Stick.js';
-        let control = new controller({'tracking-element':document.getElementById('container')});
+        import controller from './src/VirtualStick.js';
+        let control = new controller();
 
         function draw() {
             control.draw();

@@ -39,8 +39,6 @@ export default class TouchHandler {
                 y:touch.pageY
             };
 
-            this.x = 0;
-            this.y = 0;
             this.options.start(event);
         }
         event.preventDefault();
@@ -74,8 +72,6 @@ export default class TouchHandler {
 
     end(event) {
         this.currentTouch = null;
-        this.x = 0;
-        this.y = 0;
         this.options.end(event);
         return false; 
     }
