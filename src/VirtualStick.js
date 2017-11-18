@@ -1,8 +1,10 @@
-import TouchHandler from './TouchHandler.js';
+import handler from './TouchHandler.js';
 import TouchContainer from './TouchContainer.js';
 import Stick from './Stick.js';
 
-export default class VirtualStick {
+export const TouchHandler = handler;
+
+export class VirtualStick {
     constructor(options) {
         const defaults = {
             'container': document.body,

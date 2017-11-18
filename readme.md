@@ -8,17 +8,17 @@ Include the VirtualStick
 
 node:
 ```js
-var controller = require('VirtualStick.js');
+const VirtualStick = require('VirtualStick.js').VirtualStick;
 ```
 es6:
 
 ```js
-import controller from 'VirtualStick';
+import {VirtualStick} from 'VirtualStick';
 ```
 
  Basic Usage:
 ```js
-let controller = new controller(options);
+let controller = new VirtualStick(options);
 ```
 
 Available Options:
@@ -59,8 +59,11 @@ This provides the following data:
 ```
 Creating a twin stick controller:
 ```js
+
+import {VirtualStick, TouchHandler} from 'VirtualStick';
+
 let handler = new TouchHandler();
-let leftControl = new controller({
+let leftControl = new VirtualStick({
     container:document.getElementById('container'),
     width:50,
     'track-stroke-color':'#FF0000',
@@ -69,7 +72,7 @@ let leftControl = new controller({
     'touch-handler':handler
 });
 
-let rightControl = new controller({
+let rightControl = new VirtualStick({
     container:document.getElementById('container'),
     width:50,
     left:50,
