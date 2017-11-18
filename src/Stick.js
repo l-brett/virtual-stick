@@ -21,17 +21,6 @@ export default class Stick {
         this.x = 0;
         this.y = 0;
 
-        this.startFn = (ev) => this.start(ev);
-        this.moveFn = (x, y) => this.move(x, y);
-        this.endFn = (ev) => this.end(ev);
-
-        this.touchHandler = new TouchHandler({
-            element: this.options['tracking-element'],
-            start: this.startFn,
-            move: this.moveFn,
-            end: this.endFn
-        });
-
         this.createCanvas();
     }
     /**
@@ -51,6 +40,8 @@ export default class Stick {
 
         this.x = 0;
         this.y = 0;
+        this.px = 0;
+        this.py = 0;
     }
 
     getAngle(x, y) {
@@ -59,6 +50,7 @@ export default class Stick {
         }
         return Math.atan(y/x);
     }
+
     findTouch(touches) {
         for(var index in touches) {
             if(touches[index].identifier == this.currentTouch.identifier) {
@@ -67,23 +59,44 @@ export default class Stick {
         }
         return false;
     }
+
+    getMultiplier(x) {
+        return x < 0 ? -1 : 1;
+    }
+
+    getAxisDelta(x) {
+        let multiplier = this.getMultiplier(x);
+        return x * multiplier > 0.5 ? 1 * multiplier : 0
+    }
+
+    getAxis() {
+        return {
+            x: this.x,
+            y: this.y,
+            dx: this.getAxisDelta(this.x),
+            dy: this.getAxisDelta(this.y)
+        }
+    }
+
     move(changeX, changeY) {
         if(!this._isAttached) return;
-            
-        let fx = changeX * this.options['factor'];
-        let fy = changeY * this.options['factor'];
+        this.px = this.px + changeX;
+        this.py = this.py + changeY;
 
-        let px =  this.x + fx;
-        let py = this.y + fy
+        let mag = Math.sqrt((this.px * this.px) + (this.py * this.py));
 
-        let rads = this.getAngle(px, py);
+        let rads = this.getAngle(this.px, this.py);
         let maxX = Math.abs(Math.cos(rads));
         let maxY = Math.abs(Math.sin(rads));
 
-        this.x = Math.min(maxX, px);
-        this.y = Math.min(maxY, py);
-        this.x = Math.max(-maxX,this.x);
-        this.y = Math.max(-maxY,this.y);
+        if(maxX == 1) {
+            maxY = 1;
+        }
+        let trackRange = this.options['track-size'] / 2;
+        let fx = Math.min(maxX, this.px / trackRange);
+        let fy = Math.min(maxY, this.py / trackRange);
+        this.x = Math.max(-maxX, fx);
+        this.y = Math.max(-maxY, fy);
     }
 
     end(event) {
@@ -109,6 +122,14 @@ export default class Stick {
     show() {
         this._isAttached = true;
         this.options['tracking-element'].appendChild(this.canvas);
+    }
+
+    setPosition(x, y) {
+        this.canvas.style.position = 'absolute';
+        let trackSize = (this.options['track-size'] / 2);
+
+        this.canvas.style.left = x - trackSize;
+        this.canvas.style.top = y - trackSize;
     }
     /**
      * Renders a frame
