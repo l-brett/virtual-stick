@@ -17,9 +17,14 @@ export default class VirtualStick {
             'button-stroke-size':2,
             'track-color':'#00000099',
             'track-stroke-color':'#FFFFFF',
-            'track-stroke-size':2
+            'track-stroke-size':2,
+            'touch-handler': null
         }
         this.options = Object.assign({}, defaults, options);
+        
+        if(!this.options['touch-handler']) {
+            this.options['touch-handler'] = new TouchHandler({'element': this.options.container});
+        }
 
         this.container = new TouchContainer();
         this.stick = new Stick({
@@ -32,24 +37,17 @@ export default class VirtualStick {
             'track-stroke-size':this.options['track-stroke-size']
         });
 
-        this.touchHandler = new TouchHandler({
-            'element': this.options.container,
-            'left':this.options.left,
-            'top':this.options.top,
-            'width':this.options.width,
-            'height':this.options.height,
-            'start': (ev) => this.start(ev),
-            'move': (x,y) => this.stick.move(x,y),
-            'end': (ev) => this.end()
-        });
+        this.options['touch-handler'].addStick(this);
     }
 
-    start(ev) {
-        this.stick.setPosition(ev.touches[0].pageX,ev.touches[0].pageY);
+    start(touch) {
+        this.stick.setPosition(touch.pageX, touch.pageY);
         this.stick.show();
         this.stick.start();
     }
-
+    move(x, y) {
+        this.stick.move(x, y);
+    }
     end() {
         this.stick.hide();
         this.stick.end();
