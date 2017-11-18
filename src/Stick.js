@@ -122,8 +122,8 @@ export default class Stick {
         this.canvas.style.position = 'absolute';
         let trackSize = (this.options['track-size'] / 2);
 
-        this.canvas.style.left = x - trackSize;
-        this.canvas.style.top = y - trackSize;
+        this.canvas.style.left = x - trackSize + 'px';
+        this.canvas.style.top = y - trackSize + 'px';
     }
     /**
      * Renders a frame
