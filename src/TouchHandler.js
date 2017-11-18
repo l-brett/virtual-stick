@@ -48,10 +48,10 @@ export default class TouchHandler {
 
     inRange(x, y, stick) {
         let containerBounds = this.options.element.getBoundingClientRect();
-        let width = containerBounds.width * (stick.width / 100);
-        let height = containerBounds.height * (stick.height / 100);
-        let xMin = containerBounds.width * (stick.left / 100);
-        let yMin = containerBounds.width * (stick.top / 100);
+        let width = containerBounds.width * (stick.options.width / 100);
+        let height = containerBounds.height * (stick.options.height / 100);
+        let xMin = containerBounds.width * (stick.options.left / 100);
+        let yMin = containerBounds.width * (stick.options.top / 100);
         
         if( x < xMin || x > xMin + width) return false;
         if( y < yMin || y > yMin + height) return false;
