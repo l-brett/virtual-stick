@@ -8,13 +8,15 @@ export default class Stick {
      */
     constructor(options) {
         let defaults = {
-            timeout: 250,
             'button-color': '#FF0000',
             'track-color': '#00FF0099',
             'button-size': 100,
+            'button-stroke-size':0,
             'track-size': 150,
+            'track-stroke-size':2,
+            'track-stroke-color':'#FFFFFF',
+            'track-stroke-size':2,
             'tracking-element': document.body,
-            'factor': 0.02,
         }
         this.options = Object.assign({}, defaults, options);
         this._isAttached = false;
@@ -30,8 +32,8 @@ export default class Stick {
      */
     createCanvas() {
         this.canvas = document.createElement('canvas');
-        this.canvas.width = this.options['track-size'];
-        this.canvas.height = this.options['track-size'];
+        this.canvas.width = this.options['track-size'] + (this.options['track-stroke-size'] * 2 );
+        this.canvas.height = this.options['track-size'] + (this.options['track-stroke-size'] * 2 );
         this.context = this.canvas.getContext('2d');
     }
 
@@ -141,19 +143,23 @@ export default class Stick {
         if(!this._isAttached) return;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawCircle(
-            this.options['track-size'] / 2,
-            this.options['track-size'] / 2,
-            this.options['track-size'] / 2,
-            this.options['track-color']
+            (this.options['track-size'] / 2) + this.options['track-stroke-size'],
+            (this.options['track-size'] / 2) + this.options['track-stroke-size'],
+            (this.options['track-size'] / 2),
+            this.options['track-color'],
+            this.options['track-stroke-size'],
+            this.options['track-stroke-color']
         );
 
         let trackRange = (this.options['track-size'] - this.options['button-size']) / 2;
 
         this.drawCircle(
-            (this.options['track-size'] / 2) + (this.x * trackRange),
-            (this.options['track-size'] / 2) + (this.y * trackRange),
-            this.options['button-size'] / 2,
-            this.options['button-color']
+            (this.options['track-size'] / 2) + (this.x * trackRange) + this.options['track-stroke-size'],
+            (this.options['track-size'] / 2) + (this.y * trackRange) + this.options['track-stroke-size'],
+            (this.options['button-size'] / 2),
+            this.options['button-color'],
+            this.options['button-stroke-size'],
+            this.options['button-stroke-color']
         );
     }
     /**
@@ -165,11 +171,13 @@ export default class Stick {
      * @param {any} fillColor 
      * @memberof VirtualJoyStick
      */
-    drawCircle(x, y, radius, fillColor) {
+    drawCircle(x, y, radius, fillColor, strokeSize,strokeColor) {
         this.context.beginPath();
         this.context.arc(x,y,radius, 0, 2 * Math.PI, false);
         this.context.fillStyle = fillColor;
-        this.context.lineWidth = 0;
+        this.context.lineWidth = strokeSize;
+        this.context.strokeStyle = strokeColor;
         this.context.fill();
+        this.context.stroke();
     }
 }

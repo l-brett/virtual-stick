@@ -5,10 +5,10 @@ export default class TouchHandler {
             'start': (ev) => {},
             'move': (ev) => {},
             'end': (ev) => {},
-            'width': 50,
-            'height': 50,
+            'width': 100,
+            'height': 100,
             'left': 0,
-            'top':0
+            'top':0,
         };
         this.options = Object.assign({}, defaults, options);
 
