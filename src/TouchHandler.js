@@ -1,11 +1,14 @@
-
 export default class TouchHandler {
     constructor(options) {
         let defaults = {
             'element': document.body,
             'start': (ev) => {},
             'move': (ev) => {},
-            'end': (ev) => {}
+            'end': (ev) => {},
+            'width': 50,
+            'height': 50,
+            'left': 0,
+            'top':0
         };
         this.options = Object.assign({}, defaults, options);
 
@@ -30,9 +33,26 @@ export default class TouchHandler {
         el.removeEventListener('touchend', this.endFn);
     }
 
+    inRange(x, y) {
+        let containerBounds = this.options.element.getBoundingClientRect();
+        let width = containerBounds.width * (this.options.width / 100);
+        let height = containerBounds.height * (this.options.height / 100);
+        let xMin = containerBounds.width * (this.options.left / 100);
+        let yMin = containerBounds.width * (this.options.top / 100);
+        
+        if( x < xMin || x > xMin + width) return false;
+        if( y < yMin || y > yMin + height) return false;
+        return true;
+    }
+
     start(event) {
         if(event.targetTouches.length == 1) {
-            var touch = event.targetTouches[0];
+            let touch = event.targetTouches[0];
+
+            if(!this.inRange(touch.pageX, touch.pageY)) {
+                return false;
+            }
+
             this.currentTouch = {
                 identifier: touch.identifier,
                 x:touch.pageX,
@@ -71,6 +91,7 @@ export default class TouchHandler {
     }
 
     end(event) {
+        if(!this.currentTouch) return;
         this.currentTouch = null;
         this.options.end(event);
         return false; 
