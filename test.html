@@ -5,23 +5,33 @@
     </head>
     <body style="overscroll-behavior-y: none;">
 
-        <div id="container" style="width:100vw;height:100vh;background:blue;">
+        <div id="container" style="width:100vw;height:100vh;background:black;">
 
           <button>hello</button>
         </div>
     </body>
     <script type="module">
         import controller from './src/VirtualStick.js';
-        let control = new controller({
-            container:document.getElementById('container')
+        let leftControl = new controller({
+            container:document.getElementById('container'),
+            'track-stroke-color':'#0000FF',
+            'button-stroke-color':'#0000FF',
+            'button-color':null,
+            'width':50
+        });
+
+        let rightControl = new controller({
+            container:document.getElementById('container'),
+            'track-stroke-color':'#FF0000',
+            'button-stroke-color':'#FF0000',
+            'button-color':null,
+            'width':50,
+            'left':50
         });
 
         function draw() {
-            control.draw();
-            let axis = control.getAxis();
-            if(axis.x != 0 || axis.y != 0) {
-                console.log(axis);
-            }
+            leftControl.draw();
+            rightControl.draw();
             
             requestAnimationFrame(draw);
         }
