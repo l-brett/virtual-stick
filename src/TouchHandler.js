@@ -34,9 +34,9 @@ export default class TouchHandler {
 
     bindEvents() {
         let el = this.options['element'];
-        el.addEventListener('touchstart', this.startFn, false);
-        el.addEventListener('touchmove', this.moveFn, false);
-        el.addEventListener('touchend', this.endFn, false);
+        el.addEventListener('touchstart', this.startFn, {passive: false});
+        el.addEventListener('touchmove', this.moveFn, {passive: false});
+        el.addEventListener('touchend', this.endFn, {passive: false});
     }
 
     unbindEvents() {
@@ -72,15 +72,17 @@ export default class TouchHandler {
     start(event) {
         console.log('Touch Started');
         
-        for(let index in event.targetTouches) {
+        for(let index = 0; index < event.targetTouches.length; index++) {
             let touch = event.targetTouches[index];
             this.addTouchToStick(touch);
         };
+        event.preventDefault();
+        return false;
     }
 
     addTouchToStick(touch) {
         let stick = this.findStick(touch.pageX, touch.pageY);
-        if(stick){
+        if(stick && !this.findTouch(this.currentTouches, touch.identifier)){
             this.currentTouches.push({
                 identifier: touch.identifier,
                 stick: stick,
@@ -92,12 +94,21 @@ export default class TouchHandler {
     }
 
     findTouch(touches, touchIdentifier) {
-        for(var index in touches) {
+        for(let index = 0; index < touches.length; index++) {
             if(touches[index].identifier == touchIdentifier) {
                 return touches[index];
             }
         }
         return false;
+    }
+
+    endOldTouches(touches) {
+        for(let i = 0; i  < this.currentTouches.length; i++) {
+            if(!this.findTouch(touches, this.currentTouches[i].identifier)) {
+                this.currentTouches[i].stick.end();
+                this.currentTouches.splice(i,1);
+            }
+        }
     }
 
     move(event) {
@@ -108,17 +119,21 @@ export default class TouchHandler {
             if(existingTouch) {
                 let changeX = changedTouch.pageX - existingTouch.x;
                 let changeY = changedTouch.pageY - existingTouch.y;
+                
                 existingTouch.stick.move(changeX, changeY);
-            } else {
-                this.addTouchToStick(changedTouch);
+                existingTouch.x = changedTouch.pageX;
+                existingTouch.y = changedTouch.pageY;
             }
         }
+        event.preventDefault();
+        return false;
     }
 
     end(event) {
         if(!this.currentTouches.length) return;
-        this.currentTouches.forEach(ct => ct.stick.end(event));
-        this.currentTouches = [];
+        this.endOldTouches(event.targetTouches);
+        event.preventDefault();
+
         return false; 
     }
 }
