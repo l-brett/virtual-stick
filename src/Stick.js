@@ -53,15 +53,6 @@ export default class Stick {
         return Math.atan(y/x);
     }
 
-    findTouch(touches) {
-        for(var index in touches) {
-            if(touches[index].identifier == this.currentTouch.identifier) {
-                return touches[index];
-            }
-        }
-        return false;
-    }
-
     getMultiplier(x) {
         return x < 0 ? -1 : 1;
     }
@@ -81,6 +72,7 @@ export default class Stick {
     }
 
     move(changeX, changeY) {
+        
         if(!this._isAttached) return;
         this.px = this.px + changeX;
         this.py = this.py + changeY;
