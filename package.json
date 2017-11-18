@@ -1,6 +1,6 @@
 {
   "name": "virtual-stick",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A touch-based virtual joystick library",
   "main": "dist/bundle.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "dist/bundle.js"
   ],
   "author": "Leon Brett",
+  "homepage": "https://github.com/l-brett/virtual-stick",
   "license": "ISC",
   "devDependencies": {
     "rollup": "^0.51.5"
