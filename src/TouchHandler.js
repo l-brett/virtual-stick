@@ -70,8 +70,6 @@ export default class TouchHandler {
     }
 
     start(event) {
-        console.log('Touch Started');
-        
         for(let index = 0; index < event.targetTouches.length; index++) {
             let touch = event.targetTouches[index];
             this.addTouchToStick(touch);

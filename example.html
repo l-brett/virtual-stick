@@ -27,10 +27,14 @@
             'left':50
         });
 
+
         function draw() {
             leftControl.draw();
             rightControl.draw();
-            
+            let axis = leftControl.getAxis();
+            if(axis.x != 0 || axis.y != 0) {
+                console.log(axis);
+            }
             requestAnimationFrame(draw);
         }
 
