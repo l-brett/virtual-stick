@@ -8,7 +8,7 @@ export default class TouchHandler {
             'width': 100,
             'height': 100,
             'left': 0,
-            'top':0,
+            'top':0
         };
         this.options = Object.assign({}, defaults, options);
 

@@ -12,7 +12,9 @@
     </body>
     <script type="module">
         import controller from './src/VirtualStick.js';
-        let control = new controller();
+        let control = new controller({
+            container:document.getElementById('container')
+        });
 
         function draw() {
             control.draw();
