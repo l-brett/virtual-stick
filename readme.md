@@ -87,3 +87,7 @@ function gameLoop() {
     controller.draw();
 }
 ```
+Releasing touch events if no longer required
+```js
+controller.unbind();
+```

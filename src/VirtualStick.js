@@ -60,7 +60,7 @@ export class VirtualStick {
     }
     
     unbind() {
-        this.handler.removeStick(this);
+        this.options['touch-handler'].removeStick(this);
     }
 
     getAxis() {
