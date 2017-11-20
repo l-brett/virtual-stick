@@ -80,8 +80,19 @@ export default class TouchHandler {
 
     }
 
+    hasCurrentTouch(stick) {
+        for(let index = 0; index < this.currentTouches.length; index++) {
+            let currentTouch = this.currentTouches[index];
+            if(currentTouch.stick == stick) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     addTouchToStick(touch) {
         let stick = this.findStick(touch.pageX, touch.pageY);
+        if(this.hasCurrentTouch(stick)) return false;
         if(stick && !this.findTouch(this.currentTouches, touch.identifier)){
             this.currentTouches.push({
                 identifier: touch.identifier,
