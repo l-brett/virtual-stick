@@ -62,14 +62,12 @@ Creating a twin stick controller:
 
 import {VirtualStick, TouchHandler} from 'VirtualStick';
 
-let handler = new TouchHandler();
 let leftControl = new VirtualStick({
     container:document.getElementById('container'),
     width:50,
     'track-stroke-color':'#FF0000',
     'button-stroke-color':'#FF0000',
-    'button-color':null,
-    'touch-handler':handler
+    'button-color':null
 });
 
 let rightControl = new VirtualStick({
@@ -78,8 +76,7 @@ let rightControl = new VirtualStick({
     left:50,
     'track-stroke-color':'#0000FF',
     'button-stroke-color':'#0000FF',
-    'button-color':null,
-    'touch-handler':handler
+    'button-color':null
 });
 ```
 
