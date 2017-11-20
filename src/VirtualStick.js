@@ -58,8 +58,14 @@ export class VirtualStick {
     draw() {
         this.stick.draw();
     }
+    
+    unbind() {
+        this.handler.removeStick(this);
+    }
 
     getAxis() {
         return this.stick.getAxis();
     }
 }
+
+export default VirtualStick;

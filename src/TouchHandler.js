@@ -72,10 +72,12 @@ export default class TouchHandler {
     start(event) {
         for(let index = 0; index < event.targetTouches.length; index++) {
             let touch = event.targetTouches[index];
-            this.addTouchToStick(touch);
+            if(this.addTouchToStick(touch)) {
+                event.preventDefault();
+                return false;
+            };
         };
-        event.preventDefault();
-        return false;
+
     }
 
     addTouchToStick(touch) {
@@ -88,7 +90,9 @@ export default class TouchHandler {
                 y:touch.pageY
             });
             stick.start(touch);
+            return true;
         }
+        return false;
     }
 
     findTouch(touches, touchIdentifier) {
@@ -121,10 +125,12 @@ export default class TouchHandler {
                 existingTouch.stick.move(changeX, changeY);
                 existingTouch.x = changedTouch.pageX;
                 existingTouch.y = changedTouch.pageY;
+
+                event.preventDefault();
+                return false;
             }
         }
-        event.preventDefault();
-        return false;
+
     }
 
     end(event) {
