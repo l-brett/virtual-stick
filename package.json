@@ -1,6 +1,6 @@
 {
   "name": "virtual-stick",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A touch-based virtual joystick library",
   "main": "dist/bundle.js",
   "scripts": {
