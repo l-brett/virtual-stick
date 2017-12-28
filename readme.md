@@ -1,6 +1,6 @@
 # Virtual Stick
 A virtual joystick for touch devices.
-
+[View Repo](https://github.com/l-brett/virtual-stick)
 
 ## Usage
 
