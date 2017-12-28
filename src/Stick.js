@@ -31,10 +31,13 @@ export default class Stick {
      * @memberof VirtualJoyStick
      */
     createCanvas() {
-        this.percent = window.innerWidth / 100;
+        this.ratio = window.devicePixelRatio;
         this.canvas = document.createElement('canvas');
-        this.canvas.width = (this.options['track-size'] * this.percent) + (this.options['track-stroke-size'] * 2 );
-        this.canvas.height = (this.options['track-size'] * this.percent) + (this.options['track-stroke-size'] * 2 );
+        const dp1 = this.options['track-size'] + (this.options['track-stroke-size'] * 2);
+        this.canvas.width = dp1 * this.ratio;
+        this.canvas.height = dp1 * this.ratio;
+        this.canvas.style.width = dp1 + 'px';
+        this.canvas.style.height = dp1 + 'px';
         this.context = this.canvas.getContext('2d');
     }
 
@@ -87,7 +90,7 @@ export default class Stick {
         if(maxX == 1) {
             maxY = 1;
         }
-        let trackRange = (this.options['track-size'] / 2) * this.percent;
+        let trackRange = (this.options['track-size'] / (2 * this.ratio));
         let fx = Math.min(maxX, this.px / trackRange);
         let fy = Math.min(maxY, this.py / trackRange);
         this.x = Math.max(-maxX, fx);
@@ -121,7 +124,7 @@ export default class Stick {
 
     setPosition(x, y) {
         this.canvas.style.position = 'absolute';
-        let trackSize = (this.options['track-size'] / 2) * this.percent;
+        let trackSize = (this.options['track-size'] / (2 * this.ratio));
 
         this.canvas.style.left = x - trackSize + 'px';
         this.canvas.style.top = y - trackSize + 'px';
@@ -135,24 +138,24 @@ export default class Stick {
     draw() {
         if(!this._isAttached) return;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        const trackSize = (this.options['track-size'] / 2) * this.percent;
+        const trackSize = this.options['track-size'] / 2;
         this.drawCircle(
             trackSize + this.options['track-stroke-size'],
             trackSize + this.options['track-stroke-size'],
             trackSize,
             this.options['track-color'],
-            this.options['track-stroke-size'],
+            this.options['track-stroke-size'] * this.ratio,
             this.options['track-stroke-color']
         );
 
-        let trackRange = ((this.options['track-size'] * this.percent) - (this.options['button-size'] * this.percent)) / 2;
+        let trackRange = (this.options['track-size'] - this.options['button-size']) / 2;
 
         this.drawCircle(
             trackSize + (this.x * trackRange) + this.options['track-stroke-size'],
             trackSize + (this.y * trackRange) + this.options['track-stroke-size'],
-            (this.options['button-size'] / 2) * this.percent,
+            (this.options['button-size'] / 2),
             this.options['button-color'],
-            this.options['button-stroke-size'],
+            this.options['button-stroke-size'] * this.ratio,
             this.options['button-stroke-color']
         );
     }
