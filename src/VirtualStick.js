@@ -8,36 +8,39 @@ export class VirtualStick {
     constructor(options) {
         const defaults = {
             'container': document.body,
-            'left':0,
-            'top':0,
-            'width':100,
-            'height':100,
-            'track-size':150,
-            'button-size': 80,
-            'button-color':'#FFFFFF99',
-            'button-stroke-color':'#FFFFFF',
-            'button-stroke-size':2,
-            'track-color':'#00000099',
-            'track-stroke-color':'#FFFFFF',
-            'track-stroke-size':2,
+            'left': 0,
+            'top': 0,
+            'width': 100,
+            'height': 100,
+            'track-size': 12.5,
+            'button-size': 7.5,
+            'button-color': '#FFFFFF99',
+            'button-stroke-color': '#FFFFFF',
+            'button-stroke-size': 2,
+            'track-color': '#00000099',
+            'track-stroke-color': '#FFFFFF',
+            'track-stroke-size': 2,
             'touch-handler': null
-        }
+        };
+
         this.options = Object.assign({}, defaults, options);
-        
-        if(!this.options['touch-handler']) {
-            this.options['touch-handler'] = new TouchHandler({'element': this.options.container});
+
+        if (!this.options['touch-handler']) {
+            this.options['touch-handler'] = new TouchHandler({ 'element': this.options.container });
         }
 
         this.container = new TouchContainer();
         this.stick = new Stick({
-            'tracking-element':this.options.container,
-            'button-size':this.options['button-size'],
-            'button-color':this.options['button-color'],
-            'track-color':this.options['track-color'],
-            'track-size':this.options['track-size'],
-            'track-stroke-color':this.options['track-stroke-color'],
-            'track-stroke-size':this.options['track-stroke-size']
+            'tracking-element': this.options.container,
+            'button-size': this.options['button-size'],
+            'button-color': this.options['button-color'],
+            'track-color': this.options['track-color'],
+            'track-size': this.options['track-size'],
+            'track-stroke-color': this.options['track-stroke-color'],
+            'track-stroke-size': this.options['track-stroke-size']
         });
+
+        window.addEventListener("resize", () => this.stick.createCanvas(), false);
 
         this.options['touch-handler'].addStick(this);
     }
@@ -54,11 +57,11 @@ export class VirtualStick {
         this.stick.hide();
         this.stick.end();
     }
-    
+
     draw() {
         this.stick.draw();
     }
-    
+
     unbind() {
         this.options['touch-handler'].removeStick(this);
     }
