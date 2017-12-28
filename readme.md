@@ -51,8 +51,8 @@ Getting data from the controller
 This provides the following data:
 ```js
 {
-    x: 0.4, //position on x-axis (between 0 - 1)
-    y: 0.4, //position on y-axis (between 0 - 1)
+    x: 0.4, //position on x-axis (between -1 - 1)
+    y: 0.4, //position on y-axis (between -1 - 1)
     dx: 1, // dpad x-axis (1,-1 or 0) 
     dy: 1, //dpad y-axis (1,-1 or 0)
 }
