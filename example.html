@@ -2,10 +2,27 @@
     <head>
         <title>Controller Test</title>
         <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1">
-    </head>
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                overflow: none;
+            }
+            #container {
+                width:100vw;
+                height:100vh;
+                background:black;
+                color:grey;
+                text-align: center;
+                padding:1.2em 0;
+            }
+        </style>
     <body style="overscroll-behavior-y: none;">
 
-        <div id="container" style="width:100vw;height:100vh;background:black;">
+        <div id="container">
+            <h1>Touch here</h1>
+            <p>There are two controllers, tap the left and right halves of the screen to see</p>
+            <p>Check the console for output for the left controller</p>
         </div>
     </body>
     <script type="module">

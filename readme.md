@@ -1,10 +1,21 @@
 # Virtual Stick
 A virtual joystick for touch devices.
+
 [View Repo](https://github.com/l-brett/virtual-stick)
 
+[Demo(for touch devices)](https://l-brett.github.io/virtual-stick/example.html)
 ## Usage
 
-Include the VirtualStick 
+Install via npm or yarn
+```
+yarn add virtual-stick
+```
+
+```
+npm add virtual-stick
+```
+
+Include the library in your project
 
 node:
 ```js
@@ -73,7 +84,7 @@ This is the full list of configurable options:
     'track-color':'#00000099', //controller track area background color
     'track-stroke-color':'#FFFFFF', //controller track area stroke color
     'track-stroke-size':2, //controller track area stroke size
-    'touch-handler': null // (Not required) can be used to attach multiple controllers to the same element
+    'touch-handler': null // (Not required) can be used to attach multiple controllers to the same touch handler
 }
 ```
 
@@ -81,10 +92,9 @@ This is the full list of configurable options:
 Creating a 50/50 twin stick controller:
 ```js
 
-import {VirtualStick, TouchHandler} from 'VirtualStick';
+import VirtualStick from 'VirtualStick';
 
 let leftControl = new VirtualStick({
-    container:document.getElementById('container'),
     width:50,
     'track-stroke-color':'#FF0000',
     'button-stroke-color':'#FF0000',
@@ -92,7 +102,6 @@ let leftControl = new VirtualStick({
 });
 
 let rightControl = new VirtualStick({
-    container:document.getElementById('container'),
     width:50,
     left:50,
     'track-stroke-color':'#0000FF',
