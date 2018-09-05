@@ -40,8 +40,6 @@ export class VirtualStick {
             'track-stroke-size': this.options['track-stroke-size']
         });
 
-        window.addEventListener("resize", () => this.stick.createCanvas(), false);
-
         this.options['touch-handler'].addStick(this);
     }
 
