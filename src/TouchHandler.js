@@ -37,6 +37,7 @@ export default class TouchHandler {
         el.addEventListener('touchstart', this.startFn, {passive: false});
         el.addEventListener('touchmove', this.moveFn, {passive: false});
         el.addEventListener('touchend', this.endFn, {passive: false});
+        el.addEventListener('touchcancel', this.endFn, {passive: false});
     }
 
     unbindEvents() {
@@ -44,6 +45,7 @@ export default class TouchHandler {
         el.removeEventListener('touchstart', this.startFn);
         el.removeEventListener('touchmove', this.moveFn);
         el.removeEventListener('touchend', this.endFn);
+        el.removeEventListener('touchcancel', this.endFn);
     }
 
     inRange(x, y, stick) {
